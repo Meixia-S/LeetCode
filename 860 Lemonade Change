@@ -1,3 +1,4 @@
+<pre> 
 Question:
 
 At a lemonade stand, each lemonade costs $5. Customers are standing in a queue to buy from you and order one at a time (in the order specified by bills). Each customer will only buy one lemonade and pay with either a $5, $10, or $20 bill. You must provide the correct change to each customer so that the net transaction is that the customer pays $5.
@@ -29,9 +30,41 @@ Since not every customer received the correct change, the answer is false.
  
 
 Constraints:
-
 1 <= bills.length <= 105
 bills[i] is either 5, 10, or 20.
 
 _______________________________________________________________________________________________________________________
 Answer:
+
+class Solution {
+    public boolean lemonadeChange(int[] bills) {
+        int counterOf5 = 0;
+        int counterOf10 = 0;
+        int counterOf20 = 0;
+
+        for (int i = 0; i < bills.length; i ++) {
+            if (bills[i] == 5) {
+               counterOf5 ++;
+            } else if (bills[i] == 10) {
+                counterOf10 ++;
+                if (counterOf5 > 0) {
+                    counterOf5 --;
+                } else {
+                    return false;
+                }
+            } else {
+                counterOf20 ++;
+                if ((counterOf5 > 0) && (counterOf10 > 0)) {
+                    counterOf5 --;
+                    counterOf10 --;
+                } else if (counterOf5 > 2) {
+                    counterOf5 = counterOf5 - 3;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+</pre>
