@@ -1,0 +1,49 @@
+MY SOLUTION:
+
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        int[] ans = new int[temperatures.length];
+
+        for (int i = 0; i < temperatures.length; i ++) {
+            if (i == temperatures.length - 1) {
+                ans[i] = 0;
+                break;
+            }
+
+            int counter = 1;
+            int pointer = i + 1;
+        
+            while (pointer < temperatures.length) {
+                if (temperatures[i] < temperatures[pointer]) {
+                   break;
+                } else if (pointer == temperatures.length - 1) {
+                    counter = 0;
+                    break;
+                } 
+                pointer ++;
+                counter ++; 
+            }
+            ans[i] = counter;
+        }
+        return ans;
+    }
+}
+
+___________________________________________________________________________________________
+OTHER SOLUTION:
+
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        int[] ans = new int[temperatures.length];
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < temperatures.length; i ++) {
+            while (!stack.isEmpty() && temperatures[stack.peek()] <  temperatures[i]) {
+                int c = stack.pop();
+                ans[c] = i - c;
+            }
+            stack.push(i);
+        }
+        return ans;
+    }
+}

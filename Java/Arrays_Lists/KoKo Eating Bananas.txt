@@ -1,0 +1,26 @@
+MY SOLUTION:
+
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        piles = Arrays.stream(piles)
+                    .boxed()
+                    .sorted(Comparator.reverseOrder())
+                    .mapToInt(Integer::intValue)
+                    .toArray();
+
+        if (piles.length == h || (piles.length * 2) > h) {
+            int index = h - piles.length;
+            return piles[index];  
+        } else {
+            return average(piles, h);
+        }
+    }
+
+    public Integer average(int[] piles, int h) {
+        Double sum = 0.0;
+        for (Integer i : piles) {
+            sum += i;
+        }
+        int average = (int) Math.ceil(sum / h);
+    }
+}

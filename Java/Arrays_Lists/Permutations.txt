@@ -1,0 +1,33 @@
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (nums.length == 1) {
+            List<Integer> one = new ArrayList<>(List.of(nums[0]));
+            ans.add(one);
+            return ans;
+        } else {
+            recursive(nums, ans,  new ArrayList<>());
+            System.out.println("ans" + ans);
+            return ans;
+        }
+    }
+    
+    public void recursive(int[] nums, List<List<Integer>> ans, ArrayList<Integer> helper) {
+        if (helper.size() == nums.length){
+            
+            ans.add(new ArrayList<Integer>(helper));
+            System.out.println("ans" + ans);
+            return;
+        }
+        
+        for (int num: nums) {
+            if (helper.contains(num)) {
+                continue;
+            } else {
+                helper.add(num);
+                recursive(nums, ans, helper);
+                helper.remove(helper.size() - 1);
+            }
+        }
+    }
+}
