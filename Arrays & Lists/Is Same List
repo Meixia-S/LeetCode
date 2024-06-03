@@ -1,0 +1,18 @@
+public class Solution {
+  String[] word1;
+  String[] word2;
+
+    public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+      StringBuilder word1V2 = new StringBuilder();
+      for (String s: word1) {
+        word1V2.append(s);
+      }
+
+      StringBuilder word2V2 = new StringBuilder();
+      for (String s: word2) {
+        word2V2.append(s);
+      }
+
+      return word1V2.compareTo(word2V2) == 0;
+    }
+}
