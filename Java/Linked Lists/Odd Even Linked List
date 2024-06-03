@@ -1,0 +1,42 @@
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        ListNode odds = null;
+        ListNode dodds = odds;
+        
+        ListNode evens = null;
+        ListNode devens = evens;
+        
+        int counter = 1;
+        
+        if (head == null) {
+            return null;
+        }
+                
+        while (head != null) {
+            ListNode curr = new ListNode(head.val);
+            if (counter % 2 == 1) {
+                if (dodds == null) {
+                    dodds = curr;
+                    odds = dodds;
+                } else {
+                    dodds.next = curr;
+                    dodds = curr;
+                    
+                }
+            } else {
+                if (devens == null) {
+                    devens = curr;
+                    evens = devens;
+                } else {
+                    devens.next = curr;
+                    devens = curr; 
+                }
+            }
+            head = head.next;
+            counter ++;
+        }
+        
+        dodds.next = evens;
+        return odds; 
+    }
+}
