@@ -1,0 +1,32 @@
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+         if (root == null) {
+            return true;
+        } else {
+            int diff = depth(root);
+            System.out.println("diff: " + diff);
+            if (depth(root) == -1) {
+                return false;
+            } else {
+                return true;
+            }
+        } 
+    }
+
+    public int depth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        } else {
+            int left = depth(root.left);  
+            int right = depth(root.right);
+            
+            if (left == -1 || right == -1) {
+                return -1;
+            } else if (Math.abs(left - right) > 1) {
+                return -1;
+            } else {
+                return Math.max(left, right) + 1;
+            }
+        }
+    }    
+}

@@ -1,0 +1,29 @@
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        } else if (root.right == null && root.left == null) {
+            return 1;
+        } else if (root.right == null) {
+            return maxDepth(root.left) + 1;
+        } else if (root.left == null) {
+            return maxDepth(root.right) + 1;
+        } else {
+            return Math.max(maxDepth(root.right), maxDepth(root.left)) + 1;
+        }
+    }
+}
+
+_____________________________________________________________________________________________
+OTHER SOLUTION: 
+
+Recursive: 
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        } else {
+            return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+        }
+    }
+}

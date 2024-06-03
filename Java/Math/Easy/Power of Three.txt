@@ -1,0 +1,14 @@
+class Solution {
+    public boolean isPowerOfThree(int n) {
+        if (n <= 0) {
+            return false;
+        } else {
+            double checker = Math.log(n) / Math.log(3);
+            if (checker % 1 >= 0.99999999999 || checker % 1 == 0) {
+                return true;
+            }
+            return false;
+        }
+        
+    }
+}

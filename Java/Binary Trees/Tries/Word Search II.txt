@@ -1,0 +1,136 @@
+OTHER SOLUTION: too slow
+
+class TrieNode {
+    HashMap<Character, TrieNode> children;
+    boolean endOfWord;
+
+    public TrieNode() {
+        this.children = new HashMap<>();
+        this.endOfWord = false;
+    }
+}
+
+class Solution {
+    TrieNode root;
+    Set<String> visit;
+    Set<String> ans;
+
+    public void addWord(String word) {
+        TrieNode cur = root;
+        for (char ch : word.toCharArray()) {
+            if (!cur.children.containsKey(ch)) {
+                cur.children.put(ch, new TrieNode());
+            }
+            cur = cur.children.get(ch);
+        }
+        cur.endOfWord = true;
+    }
+
+    public List<String> findWords(char[][] board, String[] words) {
+        root = new TrieNode();
+
+        for (String word: words) {
+            addWord(word);
+        }
+
+        visit = new HashSet<>();
+        ans = new HashSet<>();
+       
+        for (int r = 0; r < board.length; r ++) {
+            for (int c = 0; c < board[0].length; c ++) {
+                dfs(r, c, board, root, "");
+            }
+        }
+
+        return new ArrayList<>(ans); 
+    }
+
+    public void dfs(int r, int c, char[][] board, TrieNode node, String word) {
+        if (r < 0 || c < 0 || r >= board.length || c >= board[0].length 
+            || !node.children.containsKey(board[r][c]) || visit.contains(r + "," + c)) {
+            return;
+        }
+
+        visit.add(r + "," + c);
+        node = node.children.get(board[r][c]);
+        word += board[r][c];
+
+        if (node.endOfWord) {
+            ans.add(word);
+        }
+        dfs(r + 1, c, board, node, word);
+        dfs(r - 1, c, board, node, word);
+        dfs(r, c + 1, board, node, word);
+        dfs(r, c - 1, board, node, word);
+        visit.remove(r + "," + c);
+    }
+}
+
+___________________________________________________________________________________________OTHER SOLUTION (CHAT GPT):
+
+class TrieNode {
+    HashMap<Character, TrieNode> children;
+    boolean endOfWord;
+
+    public TrieNode() {
+        this.children = new HashMap<>();
+        this.endOfWord = false;
+    }
+}
+
+class Solution {
+    TrieNode root;
+    boolean[][] visit;
+    Set<String> ans;
+
+    public void addWord(String word) {
+        TrieNode cur = root;
+        for (char ch : word.toCharArray()) {
+            if (!cur.children.containsKey(ch)) {
+                cur.children.put(ch, new TrieNode());
+            }
+            cur = cur.children.get(ch);
+        }
+        cur.endOfWord = true;
+    }
+
+    public List<String> findWords(char[][] board, String[] words) {
+        root = new TrieNode();
+
+        for (String word: words) {
+            addWord(word);
+        }
+
+        visit = new boolean[board.length][board[0].length];
+        ans = new HashSet<>();
+       
+        for (int r = 0; r < board.length; r ++) {
+            for (int c = 0; c < board[0].length; c ++) {
+                dfs(r, c, board, root, new StringBuilder());
+            }
+        }
+
+        return new ArrayList<>(ans); 
+    }
+
+    public void dfs(int r, int c, char[][] board, TrieNode node, StringBuilder word) {
+        if (r < 0 || c < 0 || r >= board.length || c >= board[0].length 
+            || !node.children.containsKey(board[r][c]) || visit[r][c]) {
+            return;
+        }
+
+        visit[r][c] = true;
+        node = node.children.get(board[r][c]);
+        word.append(board[r][c]);
+
+        if (node.endOfWord) {
+            ans.add(word.toString());
+        }
+        dfs(r + 1, c, board, node, word);
+        dfs(r - 1, c, board, node, word);
+        dfs(r, c + 1, board, node, word);
+        dfs(r, c - 1, board, node, word);
+        visit[r][c] = false;
+        word.deleteCharAt(word.length() - 1);
+    }
+}

@@ -1,0 +1,23 @@
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode curr = head;
+        ListNode prev = null;
+
+        while (ans != null) {
+            // saves next node so we can reassign it to cu
+            // aka, head.next is equal to next
+            ListNode next = curr.next;
+            // reverse the pointers, this is where we could 
+            // lose the next node if we did not have it ealier
+            // In first instance, head points to null now
+            curr.next = prev;
+            // moving one node forward in the original list
+            prev = curr;
+            // reassigning next value to curr
+            // moving it one node forward in the original list
+            curr = next;
+        }
+
+        // prev is now equals the head
+        return prev;
+    }

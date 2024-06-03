@@ -1,0 +1,49 @@
+COMBO SOLUTION:
+
+class MedianFinder {
+
+    PriorityQueue<Integer> smallHeap;
+    PriorityQueue<Integer> largeHeap;
+
+    public MedianFinder() {
+        smallHeap = new PriorityQueue<>(Collections.reverseOrder());
+        largeHeap = new PriorityQueue<>();
+    }
+    
+    public void addNum(int num) {
+        smallHeap.add(num);
+
+        if (smallHeap.size() > 0 && largeHeap.size() > 0 && smallHeap.peek() > largeHeap.peek()) {
+            int sToL = smallHeap.poll();
+            largeHeap.add(sToL);
+        }       
+        
+        if (smallHeap.size() > largeHeap.size() + 1) {         
+            int sToL = smallHeap.poll();
+            largeHeap.add(sToL);
+        } 
+        if (largeHeap.size() > smallHeap.size() + 1) {
+            int lToS = largeHeap.poll();
+            smallHeap.add(lToS);
+        }
+    }
+    
+    public double findMedian() {
+        if (smallHeap.size() == largeHeap.size()) {
+            Double x = (double) smallHeap.peek();
+            Double y = (double) largeHeap.peek();
+            return (x + y) / 2.0;
+        } else if (smallHeap.size() > largeHeap.size()) {
+            return (double) smallHeap.peek();
+        } else {
+            return (double) largeHeap.peek();
+        }
+    }
+}
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder obj = new MedianFinder();
+ * obj.addNum(num);
+ * double param_2 = obj.findMedian();
+ */

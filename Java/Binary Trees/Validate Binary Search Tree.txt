@@ -1,0 +1,23 @@
+OTHER SOLUTION:
+
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        return recursive(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    public boolean recursive (TreeNode root, long left, long right) {
+        if (root == null) {
+            return true;
+        } else if (right <= root.val || left >= root.val) {
+               return false;
+        }
+   	// we want to be larger than left and smaller than right
+	// we then go down to the left and right leaves
+	// and giving them an updated left and right boundary to stay between
+        return recursive(root.left, left, root.val) && recursive(root.right, root.val, right);
+    }
+}

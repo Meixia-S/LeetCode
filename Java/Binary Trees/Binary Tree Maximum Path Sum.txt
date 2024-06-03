@@ -1,0 +1,31 @@
+OTHER SOLUTION:
+
+class Solution {
+    public int maxPathSum(TreeNode root) {
+        if (root == null) {
+            return 0;
+        } else if (root.left == null && root.right == null) {
+            return root.val;
+        }
+
+        int[] res = {root.val};
+        recursive(root, res);
+        return res[0];
+    }
+
+    public int recursive(TreeNode root, int[] res) {
+        if (root == null) {
+            return 0;
+        }
+
+        int leftMax = recursive(root.left, res);
+        leftMax = Math.max(leftMax, 0);
+        int rightMax = recursive(root.right, res);
+        rightMax = Math.max(rightMax, 0);
+
+        // compute max path sum with split
+        res[0] = Math.max(res[0], root.val + leftMax + rightMax);
+        // compute max path sum without split
+        return root.val + Math.max(leftMax, rightMax);
+    }
+}

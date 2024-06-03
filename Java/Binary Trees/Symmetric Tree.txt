@@ -1,0 +1,20 @@
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+        return recursive(root.left, root.right);
+    }
+
+    public boolean recursive(TreeNode left_r, TreeNode right_r) {
+        if (left_r == null && right_r == null) {
+            return true;
+        }
+
+        if (left_r == null || right_r == null) {
+            return false;
+        }
+
+        return left_r.val == right_r.val && recursive(left_r.left, right_r.right) && recursive(left_r.right, right_r.left);
+    }
+}

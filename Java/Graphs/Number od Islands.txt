@@ -1,0 +1,76 @@
+class Solution {
+    public int numIslands(char[][] grid) {
+        int ans = 0;
+
+        if (grid.length == 0) {
+            return ans;
+        }
+      
+        for (int r = 0; r < grid.length; r ++) {
+            for (int c = 0; c < grid[0].length; c ++) {
+                if (grid[r][c] == '1') {
+                    bfs(r, c, grid);
+                    ans ++;
+                }
+            }
+        }
+        return ans;
+    }
+
+    public void bfs(int r, int c, char[][] grid) {
+        Queue<int[]> queue = new LinkedList<>();
+        // if asked to make this a dfs algorithm, use a deque and pop the most recent item
+        // instead of the FIFO of a queue.
+        queue.add(new int[]{r, c});
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            
+            for (int[] dir: directions) {
+                int rr = cur[0] + dir[0];
+                int cc = cur[1] + dir[1];
+                if (rr >= 0 && cc >= 0 && 
+                    rr < grid.length && cc < grid[0].length &&
+                    grid[rr][cc] == '1') {
+                    queue.add(new int[]{rr, cc});
+                    grid[rr][cc] = '0';
+                }
+            }
+        }
+    }
+}
+
+___________________________________________________________________________________________
+BETTER SOLUTION:
+
+class Solution {
+    public int numIslands(char[][] grid) {
+        int ans = 0;
+        if (grid.length == 0) {
+            return ans;
+        } 
+
+        for (int row = 0; row < grid.length; row ++) {
+            for (int col = 0; col < grid[0].length; col ++) {
+                if (grid[row][col] == '1') {
+                    dfs(row, col, grid);
+                    ans ++;
+                }
+            }
+        }
+        return ans;
+    }
+
+    public void dfs(int row, int col, char[][] grid) {
+        if (row >= 0 && row < grid.length &&
+            col >= 0 && col < grid[0].length &&
+            grid[row][col] == '1') {
+            grid[row][col] = '0';
+            dfs(row + 1, col, grid);
+            dfs(row - 1, col, grid);
+            dfs(row, col + 1, grid);  
+            dfs(row, col - 1, grid);
+        }
+    }
+}

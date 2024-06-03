@@ -1,0 +1,66 @@
+MY SOLUTION:
+
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ArrayList<Integer> checker = new ArrayList<>();
+        ArrayList<Integer> compare = new ArrayList<>();
+
+        while(head != null) {
+            checker.add(head.val);
+            head = head.next;
+        }
+
+        int starter = checker.size() / 2;
+        if (checker.size() == 1) {
+            return true;
+        } else if (checker.size() % 2 == 1) {
+            starter = checker.size() / 2 + 1;
+        }
+ 
+        for (int i = checker.size() - 1; i >= starter; i --) {
+            compare.add(checker.get(i));
+        }
+
+        if (compare.equals(checker.subList(0, checker.size() / 2))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+___________________________________________________________________________________________
+AI SOLUTION:
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        List<Integer> checker = new ArrayList<>();
+
+        // Convert ListNode values to ArrayList
+        while (head != null) {
+            checker.add(head.val);
+            head = head.next;
+        }
+
+        // Compare elements from the beginning and end simultaneously
+        int left = 0;
+        int right = checker.size() - 1;
+        while (left < right) {
+            if (!checker.get(left).equals(checker.get(right))) {
+                return false; // Not a palindrome
+            }
+            left++;
+            right--;
+        }
+        return true; // Palindrome
+    }    
+}

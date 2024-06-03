@@ -1,0 +1,80 @@
+MY SOLUTION:
+
+class Solution {
+    public int maxAreaOfIsland(int[][] grid) {
+        int ans = 0;
+        if (grid.length == 0) {
+            return ans;
+        } 
+
+        for (int row = 0; row < grid.length; row ++) {
+            for (int col = 0; col < grid[0].length; col ++) {
+                if (grid[row][col] == 1) {
+                    if (ans == 0) {
+                        ans ++;
+                    }
+                    ans = Math.max(dfs(row, col, grid), ans);
+                }
+            }
+        }
+        return ans;
+    }
+
+    public int dfs(int row, int col, int[][] grid) {
+        int ans = 0;
+        Queue<int[]> deque = new LinkedList<>();
+        deque.add(new int[]{row, col});
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+        while(!deque.isEmpty()) {
+            int[] cur = deque.poll();
+            for (int[] dir : directions) {
+                int newR = dir[0] + cur[0];
+                int newC = dir[1] + cur[1];
+                if (newR >= 0 && newR < grid.length &&
+                    newC >= 0 && newC < grid[0].length &&
+                    grid[newR][newC] == 1) {
+                        ans ++;
+                        deque.add(new int[]{newR, newC});
+                        grid[newR][newC] = 0;
+                }
+            }
+        }
+        System.out.println(ans);
+        return ans;
+    }
+}
+
+___________________________________________________________________________________________OTHER SOLUTION: 
+
+class Solution {
+    public int maxAreaOfIsland(int[][] grid) {
+        int ans = 0;
+        if (grid.length == 0) {
+            return ans;
+        } 
+
+        for (int row = 0; row < grid.length; row ++) {
+            for (int col = 0; col < grid[0].length; col ++) {
+                ans = Math.max(dfs(row, col, grid), ans);
+            }
+        }
+        return ans;
+    }
+
+    public int dfs(int row, int col, int[][] grid) {
+        int ans = 0;
+
+        if (row >= 0 && row < grid.length &&
+            col >= 0 && col < grid[0].length &&
+            grid[row][col] == 1) {
+            ans = 1;
+            grid[row][col] = 0;
+            ans += dfs(row + 1, col, grid);
+            ans += dfs(row - 1, col, grid);
+            ans += dfs(row, col + 1, grid);  
+            ans += dfs(row, col - 1, grid);
+        }
+        return ans;
+    }
+}

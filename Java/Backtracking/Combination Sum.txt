@@ -1,0 +1,26 @@
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> sub = new ArrayList<>();
+        // adding the start parameter is use to ensure that the program only considers candidates
+        // at or beyond whatever the current index is in the loop.
+        helper(candidates, ans, sub, target, 0, 0);
+        return ans;
+    }
+
+    public void helper(int[] candidates, List<List<Integer>> ans, List<Integer> sub, int target, int sum, int start) {
+        if (sum == target) {
+            ans.add(new ArrayList<>(sub));
+        }
+       
+        for (int i = start; i < candidates.length; i ++) {
+            if (sum + candidates[i] <= target) {
+                sub.add(candidates[i]);
+                sum += candidates[i];
+                helper(candidates, ans, sub, target, sum, i);
+                sub.remove(sub.size() - 1);
+                sum -= candidates[i];
+            }
+        }
+    }
+}

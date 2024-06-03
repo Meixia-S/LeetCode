@@ -1,0 +1,89 @@
+MY SOLUTION: backtracking
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> ans = new ArrayList<>();
+        backtracking(ans, new StringBuilder(), n, 0, 0);
+        return ans;
+    }     
+
+    public void backtracking(List<String> ans, StringBuilder s, int n, int open, int closed) {
+        if (s.length() == n * 2) {
+            ans.add(s.toString());
+        }
+
+        if (closed < open) {
+            s.append(")");
+            backtracking(ans, s, n, open, closed + 1);
+            s.setLength(s.length() - 1);
+        }
+
+        if (open < n) {
+            s.append("(");
+            backtracking(ans, s, n, open + 1, closed);
+            s.setLength(s.length() - 1);
+        }
+    }
+}
+
+___________________________________________________________________________________________
+OTHER SOLUTION: recursive  
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> ans = new ArrayList<String>();
+        recursive(ans, "", 0, 0, n);
+        return ans;
+        
+    }
+
+    public void recursive(List<String> list, String str, int left, int right, int max) {
+        if(str.length() == max * 2) {
+            list.add(str);
+            return;
+        }
+
+        if (left < max) {
+            recursive(list, str + "(", left + 1, right, max);
+        }
+
+        if (right < left) {
+            recursive(list, str + ")", left, right + 1, max);
+        }
+    }
+}
+
+___________________________________________________________________________________________
+OTHER SOLUTION: stack
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> ans = new ArrayList<>();
+        backtracking(ans, new Stack<Character>(), n, 0, 0);
+        return ans;
+    }     
+
+    public void backtracking(List<String> ans, Stack<Character> stack, int n, int open, int closed) {
+        StringBuilder sb = new StringBuilder();
+        if (stack.size() == n * 2) {
+            for (char c : stack) {
+                sb.append(c);
+            }
+            ans.add(sb.toString());
+        }
+
+        if (closed < open) {
+            stack.push(')');
+            backtracking(ans, stack, n, open, closed + 1);
+            stack.pop();
+            
+        }
+
+        if (open < n) {
+            stack.push('(');
+            backtracking(ans, stack, n, open + 1, closed);
+            stack.pop();
+            
+        }
+    }
+}

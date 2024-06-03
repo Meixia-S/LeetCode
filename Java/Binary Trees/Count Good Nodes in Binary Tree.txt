@@ -1,0 +1,25 @@
+class Solution {
+    public int goodNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return recursive(root, root.val);
+    }
+
+    public int recursive(TreeNode root, int max) {
+        if (root == null) {
+            return 0;
+        }
+
+        int count = 0;
+
+        if (root.val >= max) {
+            count = 1;
+            max = root.val;
+        }
+        count += recursive(root.left, max);
+        count += recursive(root.right, max);
+
+        return count;
+    }
+}

@@ -1,0 +1,15 @@
+public class Solution {
+  int nums;
+
+    public boolean isPalindrome(int x) {
+
+      StringBuilder z = new StringBuilder();
+      z.append(x);
+
+      StringBuilder y = new StringBuilder();
+      y.append(x);
+      y.reverse();
+
+      return z.compareTo(y) == 0;
+    }
+}

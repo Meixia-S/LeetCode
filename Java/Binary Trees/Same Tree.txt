@@ -1,0 +1,48 @@
+Mine:
+class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        ArrayList<Integer> p_list = new ArrayList<>();
+        ArrayList<Integer> q_list = new ArrayList<>();
+        recursive(p, q, p_list, q_list);
+        return p_list.equals(q_list);
+    }
+
+    public void recursive(TreeNode p, TreeNode q, ArrayList<Integer> p_list,  ArrayList<Integer> q_list) {
+        if (p != null && q != null) {
+            p_list.add(p.val);
+            q_list.add(q.val);
+
+            if ((p.right == null && q.right != null)|| (p.right != null && q.right == null)){
+                p_list.add(-1);
+            }  else if ((p.left == null && q.left != null)|| (p.left != null && q.left == null)) {
+                q_list.add(-1);
+            } else {
+                System.out.println(p_list);
+                System.out.println(q_list);
+                recursive(p.left, q.left, p_list, q_list);
+                recursive(p.right, q.right, p_list, q_list);
+            }
+        } else if ((p != null && q == null) || (p == null && q != null)) {
+            p_list.add(-1);
+        }
+    }
+}
+
+
+Better:
+
+class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null) {
+            return true;
+        }
+
+        if (p == null || q == null) {
+            return false;
+        }
+
+        boolean left = isSameTree(p.left, q.left);
+        boolean right = isSameTree(p.right, q.right);
+        return p.val == q.val && right && left;
+    }
+}

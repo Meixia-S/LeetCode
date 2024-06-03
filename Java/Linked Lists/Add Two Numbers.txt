@@ -1,0 +1,86 @@
+MY SOLUTION:
+
+import java.math.BigInteger;
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode ans = new ListNode();
+        ListNode tail = ans;
+        String num1 = "";
+        String num2 = "";
+
+        while (l1 != null || l2 != null) {
+            if (l1 != null) {
+                num1 = String.valueOf(l1.val) + num1;
+                l1 = l1.next;
+            } 
+            if (l2 != null) {
+                num2 = String.valueOf(l2.val) + num2;
+                l2 = l2.next;
+            }
+        }
+
+        BigInteger one = new BigInteger(num1);
+        BigInteger two = new BigInteger(num2);
+        String sum = String.valueOf(one.add(two));
+
+        for (int i = sum.length() - 1; i >= 0; i --) {
+            ListNode curr = new ListNode(Integer.parseInt(String.valueOf(sum.charAt(i))));
+            tail.next = curr;
+            tail = tail.next;
+        }
+        return ans.next;
+    }
+}
+
+_____________________________________________________________________________________________
+OTHER SOLUTION:
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+import java.math.BigInteger;
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode ans = new ListNode();
+        ListNode tail = ans;
+        int carry = 0;
+        int v1 = 0;
+        int v2 = 0;
+
+        while (l1 != null || l2 != null) {
+            if (l1 != null) {
+                v1 = l1.val;
+                l1 = l1.next;
+            } else {
+                v1 = 0;
+            }
+
+            if (l2 != null) {
+                v2 = l2.val;
+                l2 = l2.next;
+            } else {
+                v2 = 0;
+            }
+ 
+            int val = v1 + v2 + carry;
+            carry = val / 10;
+            val = val % 10;
+
+            tail.next = new ListNode(val);
+            tail = tail.next;
+        }
+
+        if (carry != 0) {
+            tail.next = new ListNode(carry);
+        }
+        
+        return ans.next;
+    }
+}

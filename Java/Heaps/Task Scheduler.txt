@@ -1,0 +1,70 @@
+MY SOLUTION: very very slow
+
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
+        HashMap<Character, Integer> map = new HashMap<>();
+        int time = 0;
+        // use list of pairs
+        // sort the list based on 
+
+        for (int i = 0; i < tasks.length; i ++) {
+            if (!map.containsKey(tasks[i])) {
+                map.put(tasks[i], 0);
+            }
+            int val = map.get(tasks[i]) + 1;
+            map.put(tasks[i], val);
+        }
+
+        List<Integer> valuesList = new ArrayList<>(map.values());
+        Collections.sort(valuesList);
+        for(Integer in: valuesList) {
+            maxHeap.add(in);
+        }
+    
+        // queue<task, time>
+        while(maxHeap.size() > 0 || queue.size() > 0) {
+            time ++;
+            int completeTask = 0;
+            if (maxHeap.size() != 0) {
+                completeTask = maxHeap.poll() - 1;
+            }
+         
+            System.out.println(maxHeap.size());
+            if (completeTask > 0) {
+                queue.add(new Pair(completeTask, time + n));
+            }
+            Pair<Integer, Integer> peek = queue.peek();
+
+            if (peek != null && peek.getValue().equals(time)) {
+                queue.poll();
+                maxHeap.add(peek.getKey());
+            }
+            
+        }
+        return time;
+    }
+}
+
+_________________________________________________________________________________________
+OTHER SOLUTION:
+
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        int[] freq = new int[26];
+        for (char task: tasks) {
+            freq[task - 'A'] ++;
+        }
+
+        Arrays.sort(freq);
+        int chunk = freq[25] - 1;
+        int idle = chunk * n;
+
+        for (int i = 24; i >= 0; i --) {
+            idle -= Math.min(chunk, freq[i]);
+        }
+
+        return idle < 0 ? tasks.length: tasks.length + idle;
+    }
+}

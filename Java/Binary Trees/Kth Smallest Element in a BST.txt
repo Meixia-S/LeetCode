@@ -1,0 +1,55 @@
+USING ARRAYLIST:
+
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        if (root == null) {
+            return 0;
+        }
+
+        List<Integer> list = new ArrayList<>();
+        list = recursive(root, list);
+        return list.get(k - 1);
+    }
+
+    public List<Integer> recursive(TreeNode root, List<Integer> list) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+
+        recursive(root.left, list);
+        list.add(root.val);
+        recursive(root.right, list);
+
+        return list;
+    }
+}
+
+			---------------------------------------------
+
+USING PRIVATE GLOBAL VARIABLES:
+
+class Solution {
+    private int count = 0;
+    private int result = 0;
+
+    public int kthSmallest(TreeNode root, int k) {
+        inorderTraversal(root, k);
+        return result;
+    }
+
+    private void inorderTraversal(TreeNode root, int k) {
+        if (root == null) {
+            return;
+        }
+        
+        inorderTraversal(root.left, k);
+
+        count++;
+        if (count == k) {
+            result = root.val;
+            return;
+        }
+
+        inorderTraversal(root.right, k);
+    }
+}
