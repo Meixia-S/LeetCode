@@ -1,0 +1,47 @@
+class Solution {
+    public void solve(char[][] board) {
+        if (board.length == 1) {
+            return;
+        }
+        
+        for (int r = 0; r < board.length; r ++) {
+            if (board[r][0] == 'O') {
+                dfs(r, 0, board);
+            } 
+            if (board[r][board[0].length - 1] == 'O') {
+                dfs(r, board[0].length - 1, board);
+            }
+        }
+
+        for (int c = 0; c < board[0].length; c ++) {
+            if (board[0][c] == 'O') {
+                dfs(0, c, board);
+            } 
+            if (board[board.length - 1][c] == 'O') {
+                dfs(board.length - 1, c, board);
+            }
+        }
+
+        for (int r = 0; r < board.length; r ++) {
+            for (int c = 0; c < board[0].length; c ++) {
+                if (board[r][c] == 'R') {
+                    board[r][c] = 'O';
+                } else if (board[r][c] == 'O') {
+                    board[r][c] = 'X';
+                }
+            }
+        }
+    }
+
+    public void dfs(int r, int c, char[][] board) {
+        if (r < 0 || r >= board.length || c < 0 || c >= board[0].length
+            || board[r][c] != 'O') {
+            return;
+        }
+        board[r][c] = 'R';
+        dfs(r + 1, c, board); 
+        dfs(r - 1, c, board);
+        dfs(r, c + 1, board);
+        dfs(r, c - 1, board);
+    }
+}
