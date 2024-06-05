@@ -1,0 +1,48 @@
+// Topological Sort
+
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        HashMap<Integer, List<Integer>> preMap = new HashMap<>();
+        // making sure each course number is in the hash
+        for (int i = 0; i < numCourses; i ++) {
+            preMap.put(i, new ArrayList<Integer>());
+        }
+
+        for (int[] preQ : prerequisites) {
+            preMap.get(preQ[0]).add(preQ[1]);
+        }
+
+        Set<Integer> setVisited = new HashSet<>();
+        for (int c = 0; c < numCourses; c ++) {
+            if (!dfs(c, preMap, setVisited)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean dfs(int curcourse, HashMap<Integer, List<Integer>> preMap, Set<Integer> setVisited) {
+        // this means we have come acorss a loop since we have visited it twice
+        if (setVisited.contains(curcourse)) {
+            return false;
+        }
+        // all preQ have been taking care of so we can take this course
+        if (preMap.get(curcourse).isEmpty()) {
+            return true;
+        }
+
+        // we are running dfs on each preQ
+        setVisited.add(curcourse);
+        for (Integer preQ : preMap.get(curcourse)) {
+            if (!dfs(preQ, preMap, setVisited)) {
+                // only one loop is needed for us to return false so do so right away
+                return false;
+            }
+        }
+        // remove it from the set so we can fall into line 26
+        setVisited.remove(curcourse);
+        // set to empty list so we can fall into line 30
+        preMap.put(curcourse, new ArrayList<>());
+        return true;
+    }
+}
