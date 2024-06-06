@@ -1,0 +1,12 @@
+class Solution {
+    public boolean isPowerOfFour(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        
+        // check to see it is a multiple of 2
+        // then check if it is one off from a multiple of 3
+            // since using 4 would give us all multples of 4 not power ofs
+        return (n & n-1) == 0 && (n % 3 == 1);
+    }
+}
