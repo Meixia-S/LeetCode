@@ -1,0 +1,15 @@
+class Solution {
+    public char findTheDifference(String s, String t) {
+        int tab = 0;
+        for(int i = 0; i < Math.max(s.length(), t.length()); i ++) {
+            if (i < s.length()) {
+                tab ^= s.charAt(s.length() - 1 - i);
+            }
+
+            if (i < t.length()) {
+                tab ^= t.charAt(t.length() - 1 - i);
+            }
+        } 
+        return (char) tab;
+    }
+}
