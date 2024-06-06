@@ -1,0 +1,28 @@
+class Solution {
+    public String addBinary(String a, String b) {
+        int carry = 0;
+        StringBuilder s = new StringBuilder();
+        
+        for (int i = 0; i < Math.max(a.length(), b.length()); i ++) {
+            int digitA = 0;
+            if (i < a.length()) {
+                digitA = a.charAt(a.length() - 1 - i);
+            }
+
+            int digitB = 0;
+            if (i < b.length()) {
+                digitB = b.charAt(b.length() - 1 - i);
+            }
+
+            int total = digitA + digitB + carry;
+            s.append(total % 2);
+            carry = total / 2;
+        }
+
+        if (carry != 0) {
+            s.append(1);
+        }    
+        
+        return s.reverse().toString();
+    }
+}
