@@ -1,1 +1,38 @@
+class Solution {
+    public List<String> readBinaryWatch(int turnedOn) {
+        List<String> ans = new ArrayList<>();
+        int[] options = {1, 2, 4, 8, 1, 2, 4, 8, 16, 32};
+        recursive(ans, options, turnedOn, 0, 0, 0);
+        return ans;
+    }
 
+    public void recursive(List<String> ans, int[] options, int turnedOn, int min, int hr, int pos) {
+        // part of the code where you add whatever you currently have to the ans list.
+        if (turnedOn == 0) {
+            if (hr <= 11 && min <= 59) {
+                StringBuilder s = new StringBuilder();
+                s.append(hr).append(":").append(min <= 9 ? "0" + min : min);
+                ans.add(s.toString());
+            }
+        }
+
+        // loop
+        for (int i = pos; i < options.length; i ++) {
+            // creating times here
+            if (i >= 0 && i <= 3) {
+                hr += options[i];
+            } else {
+                min += options[i];
+            }
+
+            recursive(ans, options, turnedOn - 1, min, hr, i + 1);
+
+            // removing the latest edit (backtracking);
+            if (i >= 0 && i <= 3) {
+                hr -= options[i];
+            } else {
+                min -= options[i];
+            }
+        }
+    }
+}
