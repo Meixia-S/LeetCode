@@ -1,0 +1,23 @@
+class Solution {
+    public boolean canPartition(int[] nums) { 
+        int sum = 0;  
+        for (Integer in : nums) {
+            sum += in;
+        }
+        if (sum % 2 == 1) {
+            return false;
+        }
+        int target = sum / 2;
+        Set<Integer> set = new HashSet<>();
+        set.add(0);
+        for (int j = nums.length - 1; j >= 0 ; j --) {
+            Set<Integer> nextSet = new HashSet<>();
+            for (Integer in: set) {
+                nextSet.add(in + nums[j]);
+                nextSet.add(in);
+            }
+            set = nextSet;
+        }
+        return set.contains(target);
+    }
+}
