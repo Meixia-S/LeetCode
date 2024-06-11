@@ -17,3 +17,43 @@ class Solution:
             curRow += 1 if goingDown else -1
 
         return ''.join(rows)
+
+_________________________________________________________________________________
+My Solution:
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        if numRows == 1:
+            return s
+
+        grid = [['' for _ in range(len(s))] for _ in range(numRows)]
+        row, col, count = 0, 0, 0
+        between = numRows - 2
+        maxBetween = numRows + (numRows - 2)
+        
+        for i in range(len(s)):
+            if count < numRows:
+                grid[row][col] = s[i]
+                row += 1
+                count += 1
+                
+            elif count >= numRows and count <= maxBetween:
+                col += 1  
+                grid[between][col] = s[i]
+                between -= 1
+                count += 1
+
+                if count >= maxBetween:
+                    count = 0
+                    row = 0
+                    col += 1
+                    between = numRows - 2
+        
+        ans = "";
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if (grid[i][j] != ''):
+                    ans += grid[i][j]
+
+        return ans
+
+// does not work for numRows = 2
