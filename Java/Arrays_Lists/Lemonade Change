@@ -1,0 +1,32 @@
+class Solution {
+    public boolean lemonadeChange(int[] bills) {
+        int counterOf5 = 0;
+        int counterOf10 = 0;
+        int counterOf20 = 0;
+
+        for (int i = 0; i < bills.length; i ++) {
+            if (bills[i] == 5) {
+               counterOf5 ++;
+            } else if (bills[i] == 10) {
+                counterOf10 ++;
+                if (counterOf5 > 0) {
+                    counterOf5 --;
+                } else {
+                    return false;
+                }
+            } else {
+                counterOf20 ++;
+                if ((counterOf5 > 0) && (counterOf10 > 0)) {
+                    counterOf5 --;
+                    counterOf10 --;
+                } else if (counterOf5 > 2) {
+                    counterOf5 = counterOf5 - 3;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+</pre>
