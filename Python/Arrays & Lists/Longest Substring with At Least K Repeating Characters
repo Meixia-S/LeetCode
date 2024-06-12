@@ -1,0 +1,15 @@
+class Solution:
+    def longestSubstring(self, s: str, k: int) -> int:
+
+        def divideConquor(s, k):
+            dict = {}
+
+            for c in s:
+                dict[c] = dict.get(c, 0) + 1
+
+            for item in dict:
+                if dict.get(item) < k:
+                    return max(divideConquor(sub, k) for sub in s.split(item))
+            return len(s)
+
+        return divideConquor(s, k)            
