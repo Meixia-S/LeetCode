@@ -1,0 +1,31 @@
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        letters = []
+        eliminated = []
+        for i in range(len(s)):
+            if s[i] in letters:
+                eliminated.append(s[i])
+                letters.remove(s[i])    
+            if s[i] in eliminated:
+                continue
+            else:
+                letters.append(s[i])    
+
+        if len(letters) == 0:
+            return - 1
+        else:
+            return s.index(letters[0])                 
+____________________________________________________
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        dict = {}
+
+        for letter in s:
+            dict[letter] = dict.get(letter, 0) + 1
+
+        for i in range(len(s)):
+            if dict.get(s[i]) == 1:
+                return i
+
+        return -1;        
+                           
