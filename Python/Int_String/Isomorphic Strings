@@ -1,0 +1,16 @@
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        if len(s) != len(t):
+            return False
+
+        dic = {}
+        usedLetter = []
+        
+        for i in range(len(s)):
+            if s[i] not in dic and t[i] not in usedLetter:
+                dic[s[i]] = t[i]
+                usedLetter.append(t[i])
+            elif t[i] != dic.get(s[i]):
+                return False
+
+        return True        
