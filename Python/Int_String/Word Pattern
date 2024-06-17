@@ -1,0 +1,17 @@
+class Solution:
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        dic = {}
+        usedLetter = set()
+        t = s.split()
+    
+        if len(pattern) != len(t):
+            return False
+        
+        for i in range(len(pattern)):
+            if pattern[i] not in dic and t[i] not in usedLetter:
+                dic[pattern[i]] = t[i]
+                usedLetter.add(t[i])
+            elif t[i] != dic.get(pattern[i]):
+                return False
+
+        return True
