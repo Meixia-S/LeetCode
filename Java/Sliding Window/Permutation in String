@@ -1,0 +1,39 @@
+public class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        int len1 = s1.length();
+        int len2 = s2.length();
+
+        if (len1 > len2) {
+            return false;
+        }
+
+        int[] c1 = new int[26];
+        int[] c2 = new int[26];
+
+        // Fill the frequency arrays for s1 and the first window in s2
+        for (int i = 0; i < len1; i++) {
+            c1[s1.charAt(i) - 'a']++;
+            c2[s2.charAt(i) - 'a']++;
+        }
+
+        // Check if the initial window matches
+        if (Arrays.equals(c1, c2)) {
+            return true;
+        }
+
+        // Slide the window over s2
+        for (int i = len1; i < len2; i++) {
+            // Add the new character to the window
+            c2[s2.charAt(i) - 'a']++;
+            // Remove the old character from the window
+            c2[s2.charAt(i - len1) - 'a']--;
+
+            // Check if the current window matches
+            if (Arrays.equals(c1, c2)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
