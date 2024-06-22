@@ -1,0 +1,32 @@
+from typing import List
+
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        Oleft = 0
+        Oright = len(nums) - 1
+        ans = []
+
+        while Oleft <= Oright:
+            mid = Oleft + (Oright - Oleft) // 2
+
+            if nums[mid] == target:
+                left = mid
+                right = mid
+
+                while left >= 0 and nums[left] == target:
+                    left -= 1
+                while right < len(nums) and nums[right] == target:
+                    right += 1
+                
+                ans.append(left + 1)
+                ans.append(right - 1)
+                return ans
+
+            elif nums[mid] < target:
+                Oleft = mid + 1
+            else:
+                Oright = mid - 1
+
+        if len(ans) == 0:
+            return [-1, -1]
+        return ans
