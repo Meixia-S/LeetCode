@@ -4,6 +4,10 @@ class Solution:
 
         if not list1 and not list2:
             return newHead.next
+        elif list1 and not list2:
+            return list1
+        elif not list1 and list2:
+            return list2        
 
         current = newHead
 
