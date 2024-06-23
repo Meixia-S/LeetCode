@@ -1,0 +1,25 @@
+class Solution:
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        if not head or left == right:
+            return head
+
+        # Dummy node to handle edge cases where reversing starts from the head
+        dummy = ListNode(0, head)
+        pre = dummy
+
+        # Move `pre` to the node before the `left`-th node
+        for _ in range(left - 1):
+            pre = pre.next
+
+        # `start` will point to the `left`-th node which will become the end of the reversed sublist
+        start = pre.next
+        then = start.next
+
+        # Reverse the sublist from `left` to `right`
+        for _ in range(right - left):
+            start.next = then.next
+            then.next = pre.next
+            pre.next = then
+            then = start.next
+
+        return dummy.next        
