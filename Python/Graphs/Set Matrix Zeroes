@@ -1,0 +1,24 @@
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        if not matrix:
+            return []
+
+        w = len(matrix)
+        l = len(matrix[0])  
+
+        rowZero = [False] * w
+        colZero = [False] * l
+
+        for i in range(w):
+            for j in range(l):
+                if matrix[i][j] == 0:
+                    rowZero[i] = True
+                    colZero[j] = True
+
+        for i in range(w):
+            for j in range(l):
+                if rowZero[i] == True or colZero[j] == True:
+                    matrix[i][j] = 0       
