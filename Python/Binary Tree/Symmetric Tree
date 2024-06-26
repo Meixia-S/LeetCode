@@ -1,0 +1,15 @@
+class Solution:
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        if not root:
+            return
+        else:
+            return self.helper(root.left, root.right)            
+
+    def helper(self, left, right):
+        if left == None and right == None:
+            return True
+
+        if left == None or right == None:
+            return False
+
+        return left.val == right.val and self.helper(left.right, right.left) and self.helper(left.left, right.right) 
