@@ -1,0 +1,24 @@
+class Solution:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        ans = []
+        queue = collections.deque()
+        queue.append(root)
+        count = 1
+
+        while queue:
+            qlen = len(queue)
+            level = []
+            for i in range(qlen):
+                leaf = queue.popleft()
+                if leaf:
+                    level.append(leaf.val)
+                    queue.append(leaf.left)
+                    queue.append(leaf.right)
+            if level and count % 2 == 0:
+                level.reverse()
+                ans.append(level)
+            elif level:
+                ans.append(level)   
+            count += 1     
+
+        return ans    
