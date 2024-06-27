@@ -1,0 +1,37 @@
+class Solution:
+    def gameOfLife(self, board: List[List[int]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                alive = self.helper(board, i, j)
+
+                if board[i][j] == 1:
+                    if alive < 2 or alive > 3:
+                        board[i][j] = 2  
+                elif alive == 3:
+                    board[i][j] = 3
+
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == 2:
+                    board[i][j] = 0
+                elif board[i][j] == 3:
+                    board[i][j] = 1    
+
+    def helper(self, board, row, col):
+        alive = 0
+
+        directions = [
+            (1, 0), (1, -1), (1, 1), # bottom, bottom-left, bottom-right
+            (-1, 0), (-1, -1), (-1, 1), # top, top-left, top-right
+            (0, 1), (0, -1) # right, left
+        ]
+
+        for dr, dc in directions:
+            r, c = row + dr, col + dc
+            if 0 <= r < len(board) and 0 <= c < len(board[0]) and (board[r][c] == 1 or board[r][c] == 2):
+                alive += 1
+
+        return alive 
