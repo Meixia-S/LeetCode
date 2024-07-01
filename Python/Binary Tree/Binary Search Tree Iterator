@@ -1,0 +1,21 @@
+class BSTIterator:
+
+    def __init__(self, root: Optional[TreeNode]):
+        self.root = root
+        self.inOrderTree = collections.deque()
+        self.helper(self.root)
+
+    def next(self) -> int:
+        self.root = self.inOrderTree.popleft()
+        return self.root.val
+
+    def helper(self, root):
+        if not root:
+            return
+
+        self.helper(root.left)
+        self.inOrderTree.append(root)
+        self.helper(root.right)
+
+    def hasNext(self) -> bool:
+        return self.inOrderTree
