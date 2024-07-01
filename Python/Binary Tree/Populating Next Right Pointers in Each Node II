@@ -1,0 +1,26 @@
+
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return None
+
+        root.next = None
+        queue = collections.deque()
+        queue.append(root)
+
+        while queue:
+            qLen = len(queue)
+            level = []
+            for i in range(qLen):
+                node = queue.popleft()
+                if node:
+                    level.append(node)
+                    queue.append(node.left)
+                    queue.append(node.right)
+            if level:
+                for i in range(len(level)):
+                    if i + 1 < len(level):
+                        level[i].next = level[i + 1]
+                    else:
+                        level[i].next = None  
+        return root
