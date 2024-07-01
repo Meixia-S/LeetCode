@@ -1,0 +1,26 @@
+class Solution:
+    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+
+        res = self.helper(root, [])
+        res.sort()
+        ans = math.inf
+        left = 0
+        right = 1
+        while right < len(res):
+            ans = min(ans, res[right] - res[left])
+            left += 1
+            right += 1
+        return ans
+
+        
+    def helper(self, root, res):
+        if not root:
+            return 
+           
+        self.helper(root.left, res)
+        res.append(root.val)
+        self.helper(root.right, res)
+
+        return res
