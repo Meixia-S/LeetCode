@@ -1,0 +1,11 @@
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        dp = [[math.inf] * (len(grid[0]) + 1) for _ in range(len(grid) + 1)]
+        dp[len(grid) - 1][len(grid[0])] = 0
+
+        for row in range(len(grid) - 1, -1, -1):
+            for col in range(len(grid[0]) - 1, -1, -1):
+                dp[row][col] = grid[row][col] + min(dp[row + 1][col], dp[row][col + 1])
+                # determining if the row below or the right is a better option
+
+        return dp[0][0]        
