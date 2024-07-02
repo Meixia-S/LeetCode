@@ -1,0 +1,25 @@
+class Solution:
+    def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
+        newTrip = []
+        for i in range(len(triplets)):
+            if triplets[i][0] == target[0] and triplets[i][1] <= target[1] and triplets[i][2] <= target[2]:
+                newTrip.append(triplets[i])
+                continue
+            
+            if triplets[i][1] == target[1] and triplets[i][0] <= target[0] and triplets[i][2] <= target[2]:
+                newTrip.append(triplets[i])
+                continue
+
+            if triplets[i][2] == target[2] and triplets[i][1] <= target[1] and triplets[i][0] <= target[0]:
+                newTrip.append(triplets[i])
+        
+        if len(newTrip) == 0:
+            return False    
+
+        newTarget = [0] * 3
+        for i in range(len(newTrip)):
+            newTarget[0] = (max(newTrip[i][0], newTarget[0]))
+            newTarget[1] = (max(newTrip[i][1], newTarget[1]))
+            newTarget[2] = (max(newTrip[i][2], newTarget[2]))
+        
+        return newTarget == target     
