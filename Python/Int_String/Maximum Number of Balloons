@@ -1,0 +1,22 @@
+class Solution:
+    def maxNumberOfBalloons(self, text: str) -> int:
+        if len(text) < 7:
+            return 0
+
+        dic = {}
+        for i in range(len(text)):
+            if text[i] == 'b' or  text[i] == 'a' or  text[i] == 'l' or  text[i] == 'o' or  text[i] == 'n':
+                if text[i] in dic:
+                    dic[text[i]] += 1
+                else:
+                    dic[text[i]] = 1
+
+        freq = set()
+        for key, value in dic.items():
+            if key == 'b'or key == 'a' or key == 'n':
+                freq.add(math.floor(value / 1))
+            elif key == 'l' or key =='o':
+                freq.add(math.floor(value / 2))
+        
+        ans = sorted(freq)
+        return ans[0]
