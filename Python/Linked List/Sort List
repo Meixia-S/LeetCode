@@ -1,0 +1,17 @@
+class Solution:
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        sortList = []
+
+        while head:
+            sortList.append(head.val)
+            head = head.next
+
+        sortList.sort()
+        newHead = ListNode()
+        current = newHead
+        
+        for items in sortList:
+            current.next = ListNode(items)
+            current = current.next
+
+        return newHead.next    
