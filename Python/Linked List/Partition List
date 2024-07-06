@@ -1,0 +1,25 @@
+class Solution:
+    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
+        beforeX = ListNode(0)  # Dummy node for the list with values < x
+        bNodes = beforeX
+
+        afterX = ListNode(0)  # Dummy node for the list with values >= x
+        aNodes = afterX
+
+        while head:
+            if head.val < x:
+                bNodes.next = head
+                bNodes = bNodes.next
+            else:
+                aNodes.next = head
+                aNodes = aNodes.next
+            
+            head = head.next
+
+        # End the 'after' list
+        aNodes.next = None
+        
+        # Connect the 'before' list with the 'after' list
+        bNodes.next = afterX.next
+
+        return beforeX.next
