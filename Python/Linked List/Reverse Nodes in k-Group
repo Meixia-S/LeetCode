@@ -1,0 +1,26 @@
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        # Calculate the length of the list
+        tempHead = head
+        length = 0
+        while tempHead:
+            tempHead = tempHead.next
+            length += 1
+        
+        # Number of times to reverse k groups
+        times = length // k
+
+        # Create a dummy node to simplify the reversal logic
+        dummy = ListNode(0, head)
+        pre = dummy
+        for _ in range(times):
+            start = pre.next
+            then = start.next
+            for _ in range(k - 1):
+                start.next = then.next
+                then.next = pre.next
+                pre.next = then
+                then = start.next
+            pre = start
+        
+        return dummy.next
