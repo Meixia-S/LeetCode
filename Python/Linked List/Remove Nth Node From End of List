@@ -1,0 +1,19 @@
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        newHead = ListNode(0, head)
+        current = newHead
+        tempHead = newHead
+        count = 0
+
+        # Move the first pointer to the end of the list while counting
+        while tempHead:
+            tempHead = tempHead.next
+            count += 1
+
+            # Start moving the second pointer after `n` steps
+            if count > n + 1:
+                current = current.next
+
+        # Remove the nth node from the end
+        current.next = current.next.next
+        return newHead.next
