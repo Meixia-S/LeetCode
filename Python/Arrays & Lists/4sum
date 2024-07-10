@@ -1,0 +1,24 @@
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        nums.sort()
+        used = []
+        n = len(nums)
+
+        for i in range(n - 3):
+            for j in range(i + 1, n - 2):
+                left = j + 1
+                right = n - 1
+                while left < right:
+                    subArray = [nums[i], nums[j], nums[left], nums[right]]
+                    current_sum = sum(subArray)
+                    if current_sum < target:
+                        left += 1
+                    elif current_sum > target:
+                        right -= 1
+                    else:
+                        if subArray not in used:
+                            used.append(subArray)
+                        left += 1
+                        right -= 1    
+
+        return used
