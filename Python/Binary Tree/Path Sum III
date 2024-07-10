@@ -1,0 +1,35 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        if not root:
+            return 0
+        
+        # Start counting paths from the root
+        count = self.helper(root, targetSum) 
+        
+        # Recursively count paths in left and right subtrees
+        count += self.pathSum(root.left, targetSum)
+        count += self.pathSum(root.right, targetSum)
+        
+        return count
+    
+    def helper(self, node, target):
+        if not node:
+            return 0
+        
+        # Check current node's value against target
+        paths_from_current = 0
+        if node.val == target:
+            paths_from_current += 1 
+        
+        # Recursively count paths from left and right children
+        paths_from_current += self.helper(node.left, target - node.val)
+        paths_from_current += self.helper(node.right, target - node.val)
+        
+        return paths_from_current
