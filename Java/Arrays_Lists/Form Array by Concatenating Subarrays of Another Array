@@ -16,3 +16,23 @@ class Solution:
                     right += 1
 
         return ans == len(groups)                
+# -------------------------------------------------------------------------------------
+class Solution:
+    def canChoose(self, groups: List[List[int]], nums: List[int]) -> bool:
+        lc = len(nums)
+        target = len(groups)
+        dp = [0 for j in range(lc)]
+
+        for c in range(lc):
+            curGroupIndex = dp[c - 1]
+            l = len(groups[curGroupIndex])
+            nextIndex = c+l-1
+
+            if nums[c: c+l] == groups[curGroupIndex] and nextIndex < lc:
+                dp[nextIndex] = max(dp[nextIndex], curGroupIndex + 1)
+                if dp[nextIndex] >= target:
+                    return True
+
+            dp[c] = max(dp[c-1], dp[c])
+
+        return False
