@@ -1,0 +1,18 @@
+class Solution:
+    def canChoose(self, groups: List[List[int]], nums: List[int]) -> bool:
+        ans = 0
+
+        for i in range(len(groups)):
+            left = 0
+            right = len(groups[i])
+
+            while right <= len(nums):
+                if nums[left: right] == groups[i]:
+                    ans += 1
+                    nums = nums[right:]
+                    break
+                else:
+                    left += 1
+                    right += 1
+
+        return ans == len(groups)                
