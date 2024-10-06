@@ -1,36 +1,25 @@
 class Solution {
     public int minDominoRotations(int[] tops, int[] bottoms) {
-        if (tops.length != bottoms.length) {
-            return 0;
+        int topRotation = helper(tops[0], tops, bottoms);
+        int bottomRotation = helper(bottoms[0], tops, bottoms);
+
+        if (topRotation != -1 && bottomRotation != -1) {
+            return Math.min(topRotation, bottomRotation);
         }
+        return Math.max(topRotation, bottomRotation);
+    }
 
-        HashMap<Integer, Integer> topsMap = new HashMap<>();
-        HashMap<Integer, Integer> bottomMap = new HashMap<>();
-        int num = 0;
-
-        for (int i = 0; i < tops.length; i ++) {
-            topsMap.put(tops[i], topsMap.getOrDefault(tops[i], 0) + 1);
-            bottomMap.put(bottoms[i], bottomMap.getOrDefault(bottoms[i], 0) + 1);
-
-            if (topsMap.get(tops[i]) >= tops.length / 2 || bottomMap.get(bottoms[i]) >= bottoms.length / 2) {
-                if (topsMap.get(tops[i]) > bottomMap.get(bottoms[i])) {
-                    num = tops[i];
-                    break;
-                }
-                num = bottoms[i];              
-                break;
-            }
-        }
-
+    private int helper(int num, int[] tops, int[] bottoms) {
         int top = 0;
         int bottom = 0;
-        for (int i = 0; i < tops.length; i ++) {
+
+        for (int i = 0; i < tops.length; i++) {
             if (tops[i] == num && bottoms[i] == num) {
                 continue;
             } else if (bottoms[i] == num) {
-                bottom ++;
+                bottom++;
             } else if (tops[i] == num) {
-                top ++;
+                top++;
             } else {
                 return -1;
             }
