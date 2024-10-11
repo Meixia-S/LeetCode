@@ -1,0 +1,33 @@
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums.length == 0) {
+            return new int[0]; // Handle empty input
+        }
+        if (k == 0) {
+            return new int[0]; // Handle zero window size
+        }
+        int[] maxes = new int[nums.length - k + 1];
+        Deque<Integer> deque = new LinkedList<>();
+        
+        for (int i = 0; i < nums.length; i++) {
+            // Remove elements not in the sliding window
+            if (!deque.isEmpty() && deque.peek() < i - k + 1) {
+                deque.poll();
+            }
+
+            // Remove elements that are less than the current element
+            while (!deque.isEmpty() && nums[deque.peekLast()] < nums[i]) {
+                deque.pollLast();
+            }
+
+            // Add the current element's index to the deque
+            deque.offer(i);
+            
+            // Start adding results to maxes after the first k elements
+            if (i >= k - 1) {
+                maxes[i - k + 1] = nums[deque.peek()]; // The front of the deque is the max
+            }
+        }
+        return maxes;
+    }
+}
