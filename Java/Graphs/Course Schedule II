@@ -1,0 +1,64 @@
+import java.util.*;
+
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        // Create an adjacency list to represent the graph
+        HashMap<Integer, List<Integer>> graph = new HashMap<>();
+        int[] visited = new int[numCourses];
+
+        // Initialize the graph and visited array
+        for (int i = 0; i < numCourses; i++) {
+            graph.put(i, new ArrayList<Integer>());
+            visited[i] = 0; // 0 means unvisited
+        }
+
+        // Build the graph from prerequisites (i[1] -> i[0], meaning course i[0] depends on i[1])
+        for (int[] i : prerequisites) {
+            graph.get(i[1]).add(i[0]);
+        }
+
+        // Store the topological order
+        List<Integer> result = new ArrayList<>();
+
+        // Perform DFS on each course
+        for (int i = 0; i < numCourses; i++) {
+            if (!topSort(graph, i, visited, result)) {
+                return new int[0]; // If a cycle is detected, return an empty array
+            }
+        }
+
+        Collections.reverse(result);
+        return result.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    // DFS helper function to perform topological sort
+    public boolean topSort(HashMap<Integer, List<Integer>> graph, int currCourse, int[] visited, List<Integer> result) {
+        // If the course is currently being visited (cycle detected)
+        if (visited[currCourse] == 1) {
+            return false;
+        }
+
+        // If the course has already been processed, no need to visit again
+        if (visited[currCourse] == 2) {
+            return true;
+        }
+
+        // Mark the course as being visited
+        visited[currCourse] = 1;
+
+        // Visit all the prerequisites of the current course
+        for (int neighbor : graph.get(currCourse)) {
+            if (!topSort(graph, neighbor, visited, result)) {
+                return false; // Cycle detected in prerequisites
+            }
+        }
+
+        // Mark the course as fully processed
+        visited[currCourse] = 2;
+
+        // Add the course to the result list
+        result.add(currCourse);
+
+        return true;
+    }
+}
