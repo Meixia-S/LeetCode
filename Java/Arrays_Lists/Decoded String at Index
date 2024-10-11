@@ -1,0 +1,34 @@
+class Solution {
+    public String decodeAtIndex(String s, int k) {
+    long length = 0;
+
+        // Calculate the effective length of the decoded string
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                System.out.println(c - '0');
+                length *= (c - '0'); // Multiply length by the digit
+            } else {
+                length++; // Increment for each letter
+            }
+        }
+
+        System.out.println(length);
+
+        // Work backwards to find the k-th character
+        for (int i = s.length() - 1; i >= 0; i--) {
+            char c = s.charAt(i);
+            k %= length; // Reduce k with the current length
+            if (k == 0 && Character.isLetter(c)) {
+                return String.valueOf(c); // Return if we found the character
+            }
+
+            if (Character.isDigit(c)) {
+                length /= (c - '0'); // Reduce length by the digit
+            } else {
+                length--; // Decrement length for each letter
+            }
+        }
+
+        return ""; // In case no character is found
+    }
+}
