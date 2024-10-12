@@ -1,0 +1,26 @@
+class Solution {
+    public List<String> findItinerary(List<List<String>> tickets) {
+        List<String> result = new ArrayList<>();
+        HashMap<String, List<String>> map = new HashMap<>();
+
+        for (List<String> route : tickets) {
+            map.computeIfAbsent(route.get(0), k -> new ArrayList<>()).add(route.get(1));
+        }
+
+        dfs(result, "JFK", map);
+        return result;
+    }
+
+    public void dfs(List<String> result, String node, HashMap<String, List<String>> map) {
+        if (map.containsKey(node)) {
+            Collections.sort(map.get(node));
+            while (!map.get(node).isEmpty()) {
+                String next = map.get(node).get(0);  // Select the smallest next destination
+                map.get(node).remove(0);  // Remove it from the adjacency list
+                dfs(result, next, map);  
+            }
+            
+        }
+        result.add(0, node); 
+    }
+}
