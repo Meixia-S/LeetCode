@@ -1,0 +1,26 @@
+class Solution {
+    public int findJudge(int n, int[][] trust) {
+        if (trust.length == 0 && n == 1) {
+            return 1;
+        }
+
+        HashMap<Integer, Integer> adjMap = new HashMap<>(); 
+        Set<Integer> trusters = new HashSet<>();
+
+        for (int[] p : trust) {
+            if (!adjMap.containsKey(p[1])) {
+                adjMap.put(p[1], 1);
+            } else {
+                adjMap.put(p[1], adjMap.get(p[1]) + 1);
+            }
+            trusters.add(p[0]);
+        }
+
+        for (Map.Entry<Integer, Integer> entry : adjMap.entrySet()) {
+            if (entry.getValue() == (n - 1) && !trusters.contains(entry.getKey())) {
+                return entry.getKey();
+            }
+        }
+        return -1;
+    }
+}
