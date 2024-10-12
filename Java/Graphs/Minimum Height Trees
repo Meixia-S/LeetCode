@@ -1,0 +1,50 @@
+class Solution {
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        List<Integer> result = new ArrayList<>();
+        if (n == 0) return result;
+        if (n == 1) return Collections.singletonList(0);
+
+        // Create the graph using an adjacency list
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        int[] degree = new int[n];
+
+        // Build the graph and track the degree of each node
+        for (int[] edge : edges) {
+            map.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            map.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+            degree[edge[0]]++;
+            degree[edge[1]]++;
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            if (degree[i] == 1) {
+                queue.offer(i);
+            }
+        }
+
+          // Trim leaves until there are at most 2 nodes left
+        while (n > 2) {
+            int leavesCount = queue.size();
+            n -= leavesCount; // Reduce the count of nodes
+
+            for (int i = 0; i < leavesCount; i++) {
+                int leaf = queue.poll(); // Get the current leaf
+                System.out.println("leaf: " + leaf);
+
+                for (int neighbor : map.get(leaf)) {
+                    degree[neighbor]--; // Decrease the degree of the neighbor
+                    if (degree[neighbor] == 1) {
+                        queue.offer(neighbor); // If it becomes a leaf, add to queue
+                        System.out.println(neighbor);
+                    }
+                }
+            }
+        }
+
+        // The remaining nodes in the queue are the roots of MHTs
+        result.addAll(queue);
+        System.out.println(result);
+        return result;
+    }
+}
