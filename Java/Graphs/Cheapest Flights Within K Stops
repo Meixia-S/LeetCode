@@ -1,0 +1,47 @@
+class Solution {
+    public int findCheapestPrice(int numCities, int[][] flights, int srcCity, int dstCity, int maxStops) {
+
+        //Adjacency map
+        Map<Integer, List<int[]>> adjacencyMap = new HashMap<>();
+
+        //Shortest path from src to all nodes Array
+        int[] cheapestPrices = new int[numCities];
+        Arrays.fill(cheapestPrices, Integer.MAX_VALUE);
+        cheapestPrices[srcCity] = 0;
+
+        //Creating adjacency map
+        for (int[] flight : flights) {
+            adjacencyMap.computeIfAbsent(flight[0], key -> new ArrayList<>()).add(new int[] { flight[1], flight[2] });
+        }
+
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[] { srcCity, 0, 0 });
+
+        while (!queue.isEmpty()) {
+        
+            for (int i = queue.size(); i > 0; i--) {
+                int[] currentFlight = queue.poll();
+                int currentCity = currentFlight[0];
+                int currentPrice = currentFlight[1];
+                int stops = currentFlight[2];
+
+                if (adjacencyMap.get(currentCity) != null) {
+
+                    for (int[] nextFlight : adjacencyMap.get(currentCity)) {
+
+                        int nextCity = nextFlight[0];
+                        int newPrice = currentPrice + nextFlight[1];
+
+                        if (newPrice < cheapestPrices[nextCity] && stops <= maxStops) {
+                            cheapestPrices[nextCity] = newPrice;
+                            queue.offer(new int[] { nextCity, newPrice, stops + 1 });
+                        }
+                    }
+
+                }
+            }
+        }
+
+        return cheapestPrices[dstCity] == Integer.MAX_VALUE ? -1 : cheapestPrices[dstCity];
+    }
+}
